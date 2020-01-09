@@ -1,7 +1,7 @@
 Summary: Utilities for performing block layer IO tracing in the linux kernel
 Name: blktrace
 Version: 1.0.1
-Release: 4%{?dist}
+Release: 6%{?dist}
 License: GPLv2+
 Group: Development/System
 Source:  http://brick.kernel.dk/snaps/blktrace-%{version}.tar.bz2
@@ -24,6 +24,8 @@ Patch9:  blktrace-1.0.1-blkparce-undocumented-options.patch
 Patch10: blktrace-1.0.1-blktrace-undocumented-options.patch
 Patch11: blktrace-1.0.1-btreplay-undocumented-options.patch
 Patch12: blktrace-1.0.1-btt-undocumented-options.patch
+Patch13: blktrace-1.0.1-pc-write-completion.patch
+Patch14: blktrace-1.0.1-flush-fua.patch
 
 %description
 blktrace is a block layer IO tracing mechanism which provides detailed
@@ -50,6 +52,8 @@ information about IO patterns.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
+%patch14 -p1
 
 %build
 make CFLAGS="%{optflags}" all
@@ -71,6 +75,12 @@ rm -rf %{buildroot}
 %attr(0644,root,root) /usr/share/man/man8/*
 
 %changelog
+* Wed Sep 07 2011 Eric Sandeen <sandeen@redhat.com> - 1.0.1-6
+- Add FLUSH/FUA support (#736399)
+
+* Fri Jul 22 2011 Eric Sandeen <sandeen@redhat.com> - 1.0.1-5
+- fix up incorrect pc write completion count (#705128)
+
 * Thu Nov 05 2010 Edward Shishkin <edward@redhat.com> - 1.0.1-4
 - blktrace doesn't run when device name is duplicated (#583615)
 - blktrace prints incorrect usage when running w/o parameters (#619201)
