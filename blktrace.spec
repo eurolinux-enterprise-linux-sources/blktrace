@@ -1,7 +1,7 @@
 Summary: Utilities for performing block layer IO tracing in the linux kernel
 Name: blktrace
 Version: 1.0.1
-Release: 3.1%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 Group: Development/System
 Source:  http://brick.kernel.dk/snaps/blktrace-%{version}.tar.bz2
@@ -10,6 +10,20 @@ Url: http://brick.kernel.dk/snaps
 Requires: python
 BuildRequires: libaio-devel python texlive-latex dvipdfm
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0:  blktrace-1.0.1-avoid-device-duplication.patch
+Patch1:  blktrace-1.0.1-blktrace-print-correct-usage.patch
+Patch2:  blktrace-1.0.1-blktrace-add-back-devname-conversion.patch
+Patch3:  blktrace-1.0.1-option-k-doesnt-kill.patch
+Patch4:  blktrace-1.0.1-blkiomon-update-documentation.patch
+Patch5:  blktrace-1.0.1-exit-with-zero-status.patch
+Patch6:  blktrace-1.0.1-blktrace-unblock-tracers-if-unsuccess.patch
+Patch7:  blktrace-1.0.1-btrecord-man-page-inconsistencies.patch
+Patch8:  blktrace-1.0.1-blkiomon-undocumented-options.patch
+Patch9:  blktrace-1.0.1-blkparce-undocumented-options.patch
+Patch10: blktrace-1.0.1-blktrace-undocumented-options.patch
+Patch11: blktrace-1.0.1-btreplay-undocumented-options.patch
+Patch12: blktrace-1.0.1-btt-undocumented-options.patch
 
 %description
 blktrace is a block layer IO tracing mechanism which provides detailed
@@ -22,6 +36,20 @@ information about IO patterns.
 
 %prep
 %setup -q
+
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
 
 %build
 make CFLAGS="%{optflags}" all
@@ -43,6 +71,21 @@ rm -rf %{buildroot}
 %attr(0644,root,root) /usr/share/man/man8/*
 
 %changelog
+* Thu Nov 05 2010 Edward Shishkin <edward@redhat.com> - 1.0.1-4
+- blktrace doesn't run when device name is duplicated (#583615)
+- blktrace prints incorrect usage when running w/o parameters (#619201)
+- btreplay cannot work for /dev/cciss/c0d0 device (#650229)
+- option -k doesn't kill running trace (#583624)
+- blkiomon prints nothing when blktrace works with logical volume (#650243)
+- blkparese exit with non-zero status when tracefile doesn't exist (#583695)
+- run time went but blktrace is still running (#595356)
+- inconsistencies in btrecord man page (#595413)
+- undocumented options in blkiomon (#595419)
+- undocumented options in blkparce (#595615)
+- undocumented options in blktrace (#595620)
+- undocumented options in btreplay (#595623)
+- undocumented options in btt (#595628)
+
 * Mon Nov 30 2009 Dennis Gregorovic <dgregor@redhat.com> - 1.0.1-3.1
 - Rebuilt for RHEL 6
 
