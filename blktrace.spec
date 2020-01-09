@@ -1,7 +1,7 @@
 Summary: Utilities for performing block layer IO tracing in the linux kernel
 Name: blktrace
 Version: 1.0.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: GPLv2+
 Group: Development/System
 Source:  http://brick.kernel.dk/snaps/blktrace-%{version}.tar.bz2
@@ -26,6 +26,8 @@ Patch11: blktrace-1.0.1-btreplay-undocumented-options.patch
 Patch12: blktrace-1.0.1-btt-undocumented-options.patch
 Patch13: blktrace-1.0.1-pc-write-completion.patch
 Patch14: blktrace-1.0.1-flush-fua.patch
+Patch15: blktrace-1.0.1-fix-for-realloc-bug.patch
+Patch16: blktrace-1.0.1-blktrace-high-cpu-count.patch
 
 %description
 blktrace is a block layer IO tracing mechanism which provides detailed
@@ -54,6 +56,8 @@ information about IO patterns.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
+%patch16 -p1
 
 %build
 make CFLAGS="%{optflags}" all
@@ -75,6 +79,10 @@ rm -rf %{buildroot}
 %attr(0644,root,root) /usr/share/man/man8/*
 
 %changelog
+* Thu Nov 12 2015 Eric Sandeen <sandeen@redhat.com> - 1.0.1-7
+- Fix realloc memory corruption (#1168101)
+- cpu scalability patches (#1252894)
+
 * Wed Sep 07 2011 Eric Sandeen <sandeen@redhat.com> - 1.0.1-6
 - Add FLUSH/FUA support (#736399)
 
