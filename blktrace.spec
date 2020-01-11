@@ -1,7 +1,7 @@
 Summary: Utilities for performing block layer IO tracing in the linux kernel
 Name: blktrace
 Version: 1.0.5
-Release: 4%{?dist}
+Release: 6%{?dist}
 License: GPLv2+
 Group: Development/System
 Source:  http://brick.kernel.dk/snaps/blktrace-%{version}.tar.bz2
@@ -41,8 +41,14 @@ rm -rf %{buildroot}
 %attr(0644,root,root) /usr/share/man/man8/*
 
 %changelog
-* Sat Mar 23 2013 Eric Sandeen <sandeen@redhat.com> - 1.0.5-4
-- Remove pdfs from build
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 1.0.5-6
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.0.5-5
+- Mass rebuild 2013-12-27
+
+* Thu Mar 21 2013 Eric Sandeen <sandeen@redhat.com> - 1.0.5-4
+- Remove tex->pdf doc build, fix build & lighten up buildreqs
 
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
