@@ -1,0 +1,26 @@
+commit 838361c6cfb1319eadd59daaf9074dcdb92746e6
+Author: Robert Schiele <rschiele@gmail.com>
+Date:   Mon Sep 8 09:38:52 2014 +0200
+
+    signal condition variable at end of stop_tracers
+    
+    stop_tracers modifies tp->is_done and thus must signal the condition
+    variable tracer_wait_unblock is waiting on to monitor tp->is_done.
+    Not doing so might cause the tool to deadlock if stop_tracers is
+    called while a tracer thread is in tracer_wait_unblock.
+    
+    Signed-off-by: Robert Schiele <rschiele@gmail.com>
+    Signed-off-by: Jens Axboe <axboe@fb.com>
+
+diff --git a/blktrace.c b/blktrace.c
+index 7e64c94..3c8fb4c 100644
+--- a/blktrace.c
++++ b/blktrace.c
+@@ -1913,6 +1913,7 @@ static void stop_tracers(void)
+ 		struct tracer *tp = list_entry(p, struct tracer, head);
+ 		tp->is_done = 1;
+ 	}
++	pthread_cond_broadcast(&mt_cond);
+ }
+ 
+ static void del_tracers(void)

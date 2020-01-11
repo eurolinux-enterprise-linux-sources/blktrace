@@ -1,0 +1,13 @@
+Index: blktrace-1.0.5/doc/blktrace.8
+===================================================================
+--- blktrace-1.0.5.orig/doc/blktrace.8
++++ blktrace-1.0.5/doc/blktrace.8
+@@ -6,7 +6,7 @@ blktrace \- generate traces of the i/o t
+ 
+ 
+ .SH SYNOPSIS
+-.B blktrace \-d \fIdev\fR [ \-r \fIdebugfs_path\fR ] [ \-o \fIoutput\fR ] [\-k ] [ \-w \fItime\fR ] [ \-a \fIaction\fR ] [ \-A \fIaction_mask\fR ] [ \-v ]
++.B blktrace \-d \fIdev\fR [ \-r \fIdebugfs_path\fR ] [ \-o \fIoutput\fR ] [ \-w \fItime\fR ] [ \-a \fIaction\fR ] [ \-A \fIaction_mask\fR ] [ \-v ]
+ .br
+ 
+ 

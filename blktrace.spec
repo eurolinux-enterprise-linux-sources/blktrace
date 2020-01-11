@@ -1,7 +1,7 @@
 Summary: Utilities for performing block layer IO tracing in the linux kernel
 Name: blktrace
 Version: 1.0.5
-Release: 6%{?dist}
+Release: 8%{?dist}
 License: GPLv2+
 Group: Development/System
 Source:  http://brick.kernel.dk/snaps/blktrace-%{version}.tar.bz2
@@ -10,6 +10,10 @@ Url: http://brick.kernel.dk/snaps
 Requires: python
 BuildRequires: libaio-devel python
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0: blktrace-1.0.5-blktrace-high-cpu-count.patch
+Patch1: blktrace-1.0.5-remove-k-from-manpage.patch
+Patch2: blktrace-1.0.5-signal-condition.patch
 
 %description
 blktrace is a block layer IO tracing mechanism which provides detailed
@@ -22,6 +26,9 @@ information about IO patterns.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 make CFLAGS="%{optflags}" all
@@ -41,6 +48,14 @@ rm -rf %{buildroot}
 %attr(0644,root,root) /usr/share/man/man8/*
 
 %changelog
+* Wed May 18 2016 Eric Sandeen <sandeen@redhat.com> - 1.0.5-8
+- One more cpu scalability fix (#1032368)
+
+* Wed May 18 2016 Eric Sandeen <sandeen@redhat.com> - 1.0.5-7
+- Add upstream cpu scalability patches (#1032368)
+- Remove "-k" option from manpage (#1300354)
+- Fix potential deadlock when calling stop_tracers (#1263189)
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 1.0.5-6
 - Mass rebuild 2014-01-24
 
