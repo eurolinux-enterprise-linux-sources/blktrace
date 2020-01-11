@@ -1,7 +1,7 @@
 Summary: Utilities for performing block layer IO tracing in the linux kernel
 Name: blktrace
 Version: 1.0.5
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: GPLv2+
 Group: Development/System
 Source:  http://brick.kernel.dk/snaps/blktrace-%{version}.tar.bz2
@@ -14,6 +14,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Patch0: blktrace-1.0.5-blktrace-high-cpu-count.patch
 Patch1: blktrace-1.0.5-remove-k-from-manpage.patch
 Patch2: blktrace-1.0.5-signal-condition.patch
+Patch3: blktrace-btt-make-device-devno-use-PATH_MAX-to-avoid-overflow.patch
 
 %description
 blktrace is a block layer IO tracing mechanism which provides detailed
@@ -29,6 +30,7 @@ information about IO patterns.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 make CFLAGS="%{optflags}" all
@@ -48,6 +50,10 @@ rm -rf %{buildroot}
 %attr(0644,root,root) /usr/share/man/man8/*
 
 %changelog
+* Thu Feb 21 2019 Eric Sandeen <sandeen@redhat.com> - 1.0.5-9
+- Fix buffer overflow in the dev_map_read function (#1580579)
+  Fixes CVE-2018-10689
+
 * Wed May 18 2016 Eric Sandeen <sandeen@redhat.com> - 1.0.5-8
 - One more cpu scalability fix (#1032368)
 
